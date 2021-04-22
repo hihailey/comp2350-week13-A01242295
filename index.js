@@ -25,6 +25,3 @@ app.use('/',router);
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);
 }); 
-
-
-
