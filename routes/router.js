@@ -63,7 +63,7 @@ router.get("/showPets", async (req, res) => {
 			console.log(validationResult.error);
 			throw validationResult.error;
 		}
-		const userResult = await User.findOne({ _id: ObjectId(req.query.id) })
+		const userResult = await User.findOne({ _id: req.query.id })
 			.select("first_name id name ")
 			.populate("pets")
 			.exec();
