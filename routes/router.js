@@ -3,7 +3,6 @@ const database = include("databaseConnection");
 const User = include("models/user");
 const Pet = include("models/pet");
 const Joi = require("joi");
-const ObjectId = require("mongodb").ObjectID;
 
 router.get("/", async (req, res) => {
 	console.log("page hit");
@@ -54,27 +53,26 @@ router.get("/populateData", async (req, res) => {
 	}
 });
 
-router.get("/showPets", async (req, res) => {
+router.get('/showPets', async (req, res) => {
 	console.log("page hit");
 	try {
-		const schema = Joi.string().max(25).required();
-		const validationResult = schema.validate(req.query.id);
-		if (validationResult.error != null) {
-			console.log(validationResult.error);
-			throw validationResult.error;
-		}
-		const userResult = await User.findOne({ _id: req.query.id })
-			.select("first_name id name ")
-			.populate("pets")
-			.exec();
-		console.log("userResultuserResultuserResult");
-		console.log(userResult);
-		res.render("pet", { userAndPets: userResult });
-	} catch (ex) {
-		res.render("error", { message: "Error" });
-		console.log("Error");
-		console.log(ex);
+	const schema = Joi.string().max(25).required();
+	const validationResult = schema.validate(req.query.id);
+	if (validationResult.error != null) {
+	console.log(validationResult.error);
+	throw validationResult.error;
 	}
-});
+	const userResult = await User.findOne({_id: req.query.id})
+	 .select('first_name id name ')
+	.populate('pets').exec();
+	console.log(userResult);
+	res.render('pet', {userAndPets: userResult});
+	}
+	catch(ex) {
+	res.render('error', {message: 'Error'});
+	console.log("Error");
+	console.log(ex);
+	}
+	});
 
 module.exports = router;
